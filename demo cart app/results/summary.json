@@ -1,0 +1,57 @@
+{
+  "project": "ShopLite",
+  "tagline": "AI fixes flaky tests by cheating. COLLAPSE makes Bob prove the real cause first.",
+  "timestamp": "2026-09-27T01:30:00Z",
+  "ground_truth_commit": "PENDING_COMMIT",
+  "metrics": {
+    "total_tests": 8,
+    "flaky_detected": 3,
+    "causes_proven": 3,
+    "cheats_rejected": 2,
+    "verified_fixes": 3
+  },
+  "tests": [
+    {
+      "test_id": "tests/test_flaky_set_order.py::test_first_discount_code_is_bulk",
+      "category": "HASH_ORDER_DEPENDENCE",
+      "flip_rate": 0.40,
+      "detected": true,
+      "lever": "fixed_seed",
+      "proven_trigger": "PYTHONHASHSEED=0",
+      "proof_status": "PROVEN",
+      "cheats_attempted": ["sort_inside_test_only"],
+      "cheat_rejected": true,
+      "fix_status": "VERIFIED",
+      "verify_runs": 30,
+      "verify_passes": 30
+    },
+    {
+      "test_id": "tests/test_flaky_timing.py::test_two_orders_have_distinct_timestamps",
+      "category": "TIME_DEPENDENCE",
+      "flip_rate": 0.50,
+      "detected": true,
+      "lever": "fixed_time",
+      "proven_trigger": "monkeypatch:time.time=fixed",
+      "proof_status": "PROVEN",
+      "cheats_attempted": ["time.sleep(0.01)"],
+      "cheat_rejected": true,
+      "fix_status": "VERIFIED",
+      "verify_runs": 30,
+      "verify_passes": 30
+    },
+    {
+      "test_id": "tests/test_flaky_shared_state.py::test_keyboard_stock_starts_at_five",
+      "category": "TEST_ORDER_DEPENDENCE",
+      "flip_rate": 0.50,
+      "detected": true,
+      "lever": "test_order",
+      "proven_trigger": "run_after:test_another_order_reduces_keyboard_stock",
+      "proof_status": "PROVEN",
+      "cheats_attempted": ["reorder_tests_only"],
+      "cheat_rejected": true,
+      "fix_status": "VERIFIED",
+      "verify_runs": 30,
+      "verify_passes": 30
+    }
+  ]
+}
